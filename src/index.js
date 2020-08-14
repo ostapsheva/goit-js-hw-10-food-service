@@ -16,11 +16,23 @@ const Theme = {
   DARK: 'dark-theme',
 };
 
+// ===View functions
+const bodyAddClass = function (name) {
+  refs.body.classList.add(name);
+};
+const bodyRemoveClass = function (name) {
+  refs.body.classList.remove(name);
+};
+// ===Modal functions
+const localStorageAddItem = function (key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
+};
+
 const checkThemeColor = function () {
   if (localStorage.getItem('theme') === JSON.stringify(Theme.LIGHT)) {
-    refs.body.classList.add('light-theme');
+    bodyAddClass('light-theme');
   } else if (localStorage.getItem('theme') === JSON.stringify(Theme.DARK)) {
-    refs.body.classList.add('dark-theme');
+    bodyAddClass('dark-theme');
     refs.input.checked = true;
   }
 };
@@ -28,13 +40,13 @@ checkThemeColor();
 
 const changeThemeColor = function (e) {
   if (e.target.checked) {
-    refs.body.classList.remove('light-theme');
-    refs.body.classList.add('dark-theme');
-    localStorage.setItem('theme', JSON.stringify(Theme.DARK));
+    bodyRemoveClass('light-theme');
+    bodyAddClass('dark-theme');
+    localStorageAddItem('theme', Theme.DARK);
   } else if (!e.target.checked) {
-    refs.body.classList.remove('dark-theme');
-    refs.body.classList.add('light-theme');
-    localStorage.setItem('theme', JSON.stringify(Theme.LIGHT));
+    bodyRemoveClass('dark-theme');
+    bodyAddClass('light-theme');
+    localStorageAddItem('theme', Theme.LIGHT);
   }
 };
 refs.input.addEventListener('click', changeThemeColor);
